@@ -1,0 +1,30 @@
+.icon-align-left,
+.icon-align-center,
+.icon-align-right,
+.icon-list-alt
+{
+	display: inline-block;
+	font: normal normal normal 14px/1 FontAwesome !important;
+	font-size: inherit;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-align-left:before {
+	font-family: FontAwesome !important;
+	content: "\f036";
+}
+.icon-align-center:before {
+	font-family: FontAwesome !important;
+	content: "\f037";
+}
+.icon-align-right:before {
+	font-family: FontAwesome !important;
+	content: "\f038";
+}
+.icon-list-alt:before {
+	font-family: FontAwesome !important;
+	content: "\f121";
+}
+

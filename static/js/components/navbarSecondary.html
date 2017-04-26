@@ -1,0 +1,55 @@
+<div>
+  <!-- Dropdown Structure -->
+  <ul id="dropdown1" class="dropdown-content">
+    <li><a href="/accounts/manage" target="_self">Manage Account</a></li>
+    <li class="divider"></li>
+    <li><a href="/accounts/logout" ng-click="logOut()" target="_self">Log Out</a></li>
+  </ul>
+  <!-- side nav -->
+  <ul id="slide-out" class="side-nav" ng-controller="NavController">
+      <li><div class="userView">
+        <div class="background">
+          <img src="static/images/blue-home.jpeg">
+        </div>
+          <a href="#!user"><img class="circle" src="{{user.displayAvatarUrl}}"></a>
+          <a href="#!name"><span class="white-text name">{{user.firstName}} {{user.lastName}}</span></a>
+          <a href="#!email"><span class="white-text email">{{user.email}}</span></a>
+        </div>
+      </li>
+      <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
+      <li><a href="#!">Second Link</a></li>
+      <li><div class="divider"></div></li>
+      <li><a class="subheader">Subheader</a></li>
+      <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+  </ul>
+
+  <div class="" ng-controller="NavController">
+    <nav class="nav2" >
+        <div class="nav-wrapper">
+          <a class="" href="/" target="_self">
+            <img class="" alt="Bid &amp; Book Logo" src="/static/images/LogoBnB.svg" style="margin-top:.2em; margin-left:1em">
+          </a>
+          <a href="#" data-activates="slide-out" class="button-collapse right"><i class="material-icons">menu</i></a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a id="logintest" class="nav-btn" href="/accounts/login" ng-hide="user.isAuthenticated" target="_self">Login</a></li>
+            <li><a href="/register" ng-hide="user.isAuthenticated" target="_self">Create Account</a></li>
+            <li><a href="/homes" ng-show="user.isAuthenticated" target="_self">Search Homes</a></li>
+            <li><a href="/homes/my" ng-show="user.isAuthenticated" target="_self">My Homes</a></li>
+            <!-- <li><a href="/coming-soon/" ng-show="user.isAuthenticated" target="_self">My Bids</a></li>
+            <li><a href="/coming-soon/" ng-show="user.isAuthenticated" target="_self">My Home Rentals</a></li>
+            <li><a href="/coming-soon/" ng-show="user.isAuthenticated" target="_self">Payments</a></li> -->
+            <li><a class="waves-effect waves-light btn blue" href="/homes/new" target="_self">List Your Rental</a></li>
+            <li ng-if="user.displayAvatarUrl"><a href="" style="height:64px;"><img class="circle nav-avatar marg-top" src="{{user.displayAvatarUrl}}" alt="" style="height:2em;"></a></li>
+            <li>
+              <a class="dropdown-button" data-activates="dropdown1" ng-show="user.isAuthenticated">
+                <div class="">
+                  {{user.email}}
+                  <i class="material-icons right">arrow_drop_down</i>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+    </nav>
+  </div>
+</div>

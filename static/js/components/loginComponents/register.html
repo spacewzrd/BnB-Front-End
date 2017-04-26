@@ -1,0 +1,28 @@
+<form name="registerUserForm" class="register-form" ng-controller="RegisterController" ng-submit="register(registerUserForm.$valid)" novalidate>
+  <div class="register-form-group login-form-group">
+    <p class="register-form-txt">Enter your mobile number to get started</p>
+    <div class="validation-messages">
+      <p ng-show="error.data.email[0]" class="error">{{error.data.email[0]}}</p>
+      <p ng-show="registerUserForm.firstName.$invalid && !registerUserForm.firstName.$pristine" class="error">Your first name is required.</p>
+      <p ng-show="registerUserForm.lastName.$invalid && !registerUserForm.lastName.$pristine" class="error">Your last name is required.</p>
+      <p ng-show="registerUserForm.email.$invalid && !registerUserForm.email.$pristine" class="error">Please Enter a valid email.</p>
+      <p ng-show="registerUserForm.password.$error.minlength && !registerUserForm.password.$touched" class="error">Password must be at least 5 characters long.</p>
+      <p ng-show="registerUserForm.phone.$error.minlength && !registerUserForm.phone.$touched" class="error">Please Enter a valid phone number.</p>
+      <p ng-show="registerUserForm.phone.$error.maxlength" class="error">Phone number cannot be more than 10 numbers.</p>
+      <p></p>
+    </div>
+    <input name="email" class="grey-input col-md-6 center" type="email" name="email" value="" ng-model="registerInfo.email" placeholder="Email" required >
+    <input name="first_name" class="grey-input col-md-6 center" type="text" name="first_name" value="" ng-model="registerInfo.firstName" placeholder="First Name" ng-minlength="1"  required >
+    <input name="last_name" class="grey-input col-md-6 center" type="text" name="last_name" value="" ng-model="registerInfo.lastName" placeholder="Last Name" ng-minlength="1"  required >
+    <input name="password" class="grey-input col-md-6 center" type="password" name="password" value="" ng-model="registerInfo.password" placeholder="Password" ng-minlength="5" required >
+    <input name="phone" class="grey-input col-md-6 center" type="number" name="phone" value="" ng-model="registerInfo.phone" placeholder="Phone Number" ng-minlength="10" ng-maxlength="10" maxlength="10">
+    <div class="TOS TOS-login">
+      <p>By signing up you are agreeing to the <a class="pointer" href="/terms"> Terms of Service and Privacy Policy</a>.</p>
+    </div>
+  </div>
+  <div class="login-btn-group">
+    <button class="register-nxt btn" type="submit" name="button" ng-disabled="registerUserForm.$invalid">Sign Up</button>
+    <button class="register-facebook btn" type="button" name="button" onclick="location.href='/accounts/facebook/login/?process=login';"><img src="/static/images/Icon_fb_button.svg" alt="">Sign up with Facebook</button>
+    <button class="register-google btn" type="button" name="button" onclick="location.href='/accounts/google/login/?process=login';">Sign up with Google</button>
+  </div>
+</form>

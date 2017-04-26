@@ -1,0 +1,16 @@
+.nav
+  @include linearGradient(rgba(0,0,0,0.33), rgba(0,0,0,0.1))
+
+.nav2
+  background-color: $dark-nav
+
+.nav-background
+  height: 4em
+  background-color: $dark-nav !important
+  transition: background 0.5s ease
+  @include linearGradient($dark-nav, $dark-nav)
+
+.nav-avatar
+  border: white
+  border-style: solid
+  border-width: thin
