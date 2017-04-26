@@ -1,0 +1,314 @@
+{% extends "xactpad/__base.html" %}
+{% load static from staticfiles %}
+{% block additional_styles %}<style>body {background: none no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;margin: 0 0 300px; /* bottom = footer height */}</style>{% endblock %}
+{% block content %}
+{% verbatim %}
+<div class="listingElem" id="listingEdit" ng-controller="listingController">
+    <navbar-secondary class="navElement"></navbar-secondary>
+    <div class="container ">
+        <h1 class="title">{{listing.name}} - Edit</h1>
+        <form class="flexColumn">
+            <div class="edit-name form-group">
+                <label class="sub-title" for="">Name</label>
+                <p ng-show="nameChange" class="success fade-in-out">Name Saved</p>
+                <input id="name_patch" class="form-control patch grey-input" type="text" name="name" ng-blur="patch_name()" value="{{listing.name}}" ng-minlength="3" required>
+            </div>
+            <!-- Added Description -->
+            <hr class="new-listing-hr">
+            <div>
+                <h1 class="sub-title">Location of Home</h1>
+                <p ng-show="addressChange" class="success fade-in-out">Address Saved</p>
+                <p ng-show="address2Change" class="success fade-in-out">Address 2 Saved</p>
+                <p ng-show="cityChange" class="success fade-in-out">City Saved</p>
+                <p ng-show="stateChange" class="success fade-in-out">State Saved</p>
+                <p ng-show="zipChange" class="success fade-in-out">Zip Saved</p>
+                <div class="location-inputs">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <input class="form-control grey-input" id="addressTextField" type="text" placeholder="Address" ng-model="listing.formatted_address">
+                        </div>
+                        <div class="col-md-2">
+                            <input class="form-control grey-input" type="text" name="streetAdd2" placeholder="Apt/Unit # (Optional)" ng-model="listing.street_address_2" ng-minlength="0" ng-maxlength="20" ng-blur="patch_address2()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="new-listing-hr">
+            <div class="form-group">
+                <label class="sub-title" for="">Description</label>
+                <p ng-show="descriptChange" class="success fade-in-out">Description Saved</p>
+                <textarea id="summary_patch" class="form-control patch grey-input" style="height: 100px" name="summary" ng-blur="patch_summary()" ng-minlength="5" ng-maxlength="500" required placeholder="Describe your spot.">{{listing.summary}}</textarea>
+            </div>
+            <hr class="new-listing-hr">
+            <div class="form-group flexColumn">
+                <label class="sub-title" for="">Check In Min/Max </label>
+                <p ng-show="minChange" class="success fade-in-out">Checkin time minimum Saved</p>
+                <p ng-show="maxChange" class="success fade-in-out">Checkin time maximum Saved</p>
+                <div class="flex">
+                    <div class="dropdown">
+                        <select id="checkinmin_patch" class="xactdropdown dropdown-toggle col-md-12" aria-labelledby="checkin" ng-blur="patch_checkinmin()">
+                            <option value="{{listing.checkin_time_min}">{{listing.checkin_time_min}}</option>
+                            <option ng-repeat="time in times" value="{{time}}">{{time}}</option>
+                        </select>
+                    </div>
+                    <div class="dropdown marg-left">
+                        <select id="checkinmax_patch" class="xactdropdown dropdown-toggle col-md-12" aria-labelledby="checkin" ng-blur="patch_checkinmax()">
+                            <option value="{{listing.checkin_time_max}">{{listing.checkin_time_max}}</option>
+                            <option ng-repeat="time in times" value="{{time}}">{{time}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- end checkin -->
+            <div class="form-group edit-checkout">
+                <label class="sub-title" for="">Check Out</label>
+                <p ng-show="outChange" class="success fade-in-out">Checkout time Saved</p>
+                <div class="dropdown">
+                    <select id="checkout_patch" class="xactdropdown dropdown-toggle col-md-2" aria-labelledby="checkout" ng-blur="checkout_patch2()">
+                        <option value="{{listing.checkout_time}">{{listing.checkout_time}}</option>
+                        <option ng-repeat="time in times" value="{{time}}">{{time}}</option>
+                    </select>
+                </div>
+            </div>
+            <!-- end checkout -->
+            <hr class="new-listing-hr">
+            <div class="form-group">
+                <label class="sub-title" for="">Amenities</label>
+                <p ng-show="aChange" class="success fade-in-out">{{aname}} Saved</p>
+                <div class="edit_amenities" data-toggle="buttons">
+                    <div class="amenities-div" data-toggle="buttons">
+                        <div class="amenitie-group" ng-repeat="amenityGroup in amenities">
+                            <h1 class="reg-text">{{amenityGroup.name}}</h1>
+                            <label for="edit-listing-checkbox" class="amenity-label" ng-repeat="amenity in amenityGroup.amenities" ng-click="toggleAmenity(amenity)">
+                                <div class=" checkbox-editlisting ng-animate-disabled check-container" ng-click="checkbox = !checkbox" ng-if="selectedAmenities.indexOf(amenity)!==-1">
+                                    <img class="check" src="/static/images/Checkbox.svg" alt="" />
+                                    <img class="tick" src="/static/images/Checkbox_tick.svg" alt="" />
+                                </div>
+
+                                <img class="checkbox-register ng-animate-disabled" src="/static/images/Checkbox.svg" alt="" ng-if="selectedAmenities.indexOf(amenity)==-1" />
+                                <input class="edit-listing-checkbox " type="checkbox" ng-checked="selectedAmenities.indexOf(amenity)!==-1">
+                                <p>{{amenity}}</p>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- end amenities -->
+            <hr class="new-listing-hr">
+            <div class="form-group">
+                <label class="sub-title" for="">Base Price</label>
+                <p ng-show="priceChange" class="success fade-in-out">New Price Saved</p>
+                <div class="form-group base-price">
+                    <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">$</div>
+                        <input type="number" class="form-control grey-input money-input" id="price_patch" placeholder="Amount" value="{{listing.base_price}}" ng-blur="patch_price()" required ng-minlength="1">
+                    </div>
+                </div>
+            </div>
+            <hr class="new-listing-hr">
+            <div class="pictures">
+                <h1 class="sub-title">Pictures</h1>
+                <div class="add-location-big-pic">
+                    <img ng-hide="files" class="big-pic " ng-src="{{listing.photos[0].image}}" alt="" />
+                    <div class="marg-top flexColumn" style="justify-content:center; align-items:center;" ng-repeat="file in files">
+                      <img ng-show="files" class="big-pic mainImg fade-in-out " ng-src="data:image/jpeg;base64,{{file.base64}}" alt="" />
+                      <div ng-show="files" class="edit-add-pic-upload">
+                        <div class="input-group marg-top">
+                          <span class="input-group-addon"><img style="height:2em;" src="/static/images/Icon_AddDescription.svg"/></span>
+                          <input class="form-control grey-input money-input" type="text" name="name" ng-model="caption" placeholder="Add a description...">
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="input-group marg-top"  ng-hide="files">
+                  <span class="input-group-addon"><img style="height:2em;" src="/static/images/Icon_AddDescription.svg"/></span>
+                  <input class="form-control grey-input money-input" type="text" name="name" value="" placeholder="{{listing.photos[0].caption}}" data-id="{{$id}}" ng-blur="caption_patch_main($event)">
+                </div>
+                <div class="pic-list-2">
+                    <div class="pic" ng-show="files">
+                        <img class='' ng-src="{{listing.photos[0].image}}" alt="" />
+                        <div class="input-group col-md-3 marg-top">
+                          <span class="input-group-addon"><img style="height:30px;" src="/static/images/Icon_AddDescription.svg"/></span>
+                          <input class="form-control grey-input money-input " type="text" name="name" placeholder="{{photo.caption}}" ng-blur="caption_patch($event,photo)" data-id="{{$id}}">
+                        </div>
+                        <!-- <input class="form-control grey-input" type="text" name="name" placeholder="{{listing.photos[0].caption}}" ng-blur="caption_patch_main($event)"> -->
+                    </div>
+                    <div class="pic img-wrap-2" ng-repeat="photo in listing.photos" ng-if="photo.position !== 0 ">
+                        <img class='' ng-src="{{photo.image}}" alt="" />
+                        <div class="input-group col-md-3 marg-top">
+                          <!-- <span class="input-group-addon"><img style="height:30px;" src="/static/images/Icon_AddDescription.svg"/></span> -->
+                          <input class="grey-input center" type="text" name="name" placeholder="{{photo.caption}}" ng-blur="caption_patch($event,photo)" data-id="{{$id}}">
+                        </div>
+                        <p class="img-hover-edit btn owner-listing-btn" ng-click="make_main(photo)">Make Main</p>
+                        <a href=""><img class="img-hover-2" src="/static/images/Icon_edit.svg" alt="" ng-click="remove_photo(photo)" /></a>
+                    </div>
+
+                </div><!-- end pic list -->
+                <div class="">
+                    <div class="add-pic col-md-12 marg-top">
+                        <form>
+                          <div  class="file-field input-field">
+                            <div class="btn">
+                              <i class="material-icons left">perm_media</i>
+                              <span>Add Pic</span>
+                              <input onloadstart="startedit" class="add-pic-edit" id="add-pic" type="file" name="add-pic" ng-model="files" multiple accept="image/*" parser="resizeImage" on-after-validate="onloadedit"  base-sixty-four-input></input>
+                            </div>
+                            <div class="file-path-wrapper">
+                              <input class="file-path validate flow-text" type="text" placeholder="Upload one or more files">
+                            </div>
+                          </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+        <!-- House Type & Cancellation Policy -->
+        <hr class="new-listing-hr">
+        <div class="type">
+            <h1 class="sub-title">Type of Home</h1>
+            <p ng-show="typeChange" class="success fade-in-out">Type of Home Saved</p>
+            <p ng-show="roomChange" class="success fade-in-out">Number of Rooms Saved</p>
+            <p ng-show="guestChange" class="success fade-in-out">Number of Guests Saved</p>
+            <p ng-show="bathChange" class="success fade-in-out">Number of Bathrooms Saved</p>
+
+            <div class="type-div row">
+                <select class="browser-default col s3"  aria-labelledby="checkin" ng-model="listing.property_type" ng-change="patch_property_type()">
+                    <option ng-repeat="type in Ptypes" value="{{type}}" repeat-done="initSelect()">{{type}}</option>
+                </select>
+
+                <div class="type-btn-outer-div col s3">
+                    <h1 class="reg-text">Rooms</h1>
+                    <div class="type-btn-group">
+                        <img src="/static/images/Icon_Minus.svg" alt="" ng-click="listing.num_bedrooms == 0 ? listing.num_bedrooms = listing.num_bedrooms-0 : listing.num_bedrooms = listing.num_bedrooms-1; patch_bedrooms()" />
+                        <p class="marg-left marg-right">{{listing.num_bedrooms}}</p>
+                        <img src="/static/images/Icon_Plus_white.svg" alt="" ng-click="listing.num_bedrooms= listing.num_bedrooms+1; patch_bedrooms()" />
+                    </div>
+                </div>
+
+                <div class="type-btn-outer-div col s3">
+                    <h1 class="reg-text">Guests</h1>
+                    <div class="type-btn-group">
+                        <img src="/static/images/Icon_Minus.svg" alt="" ng-click="listing.guests == 0 ? listing.num_guests = listing.num_guests-0 : listing.num_guests = listing.num_guests-1; patch_guests()" />
+                        <p class="marg-left marg-right">{{listing.num_guests}}</p>
+                        <img src="/static/images/Icon_Plus_white.svg" alt="" ng-click="listing.num_guests= listing.num_guests+1; patch_guests()" />
+                    </div>
+                </div>
+
+                <div class="type-btn-outer-div col s3">
+                    <h1 class="reg-text">Bathrooms</h1>
+                    <div class="type-btn-group">
+                        <img src="/static/images/Icon_Minus.svg" alt="" ng-click="listing.num_bathrooms = listing.num_bathrooms == 0 ? 0 : (listing.num_bathrooms-0.5); patch_bathrooms()" />
+                        <p class="marg-left marg-right">{{listing.num_bathrooms}}</p>
+                        <img src="/static/images/Icon_Plus_white.svg" alt="" ng-click="listing.num_bathrooms = listing.num_bathrooms + 0.5; patch_bathrooms()" />
+                    </div>
+                </div>
+        </div>
+        <hr class="new-listing-hr">
+        <div class="cancel">
+            <h1 class="sub-title">Cancellation Policy</h1>
+            <p class="add-location-p">Select your Cancellation policy</p>
+            <p ng-show="policyChange" class="success fade-in-out">New Policy Saved</p>
+            <div class="cancel-options">
+                <div class="form-group">
+                    <div class="radio" style="margin-top:3em;">
+                        <label class="add-location-option-label">
+                            <input class="ng-hide" type="radio" name="" value="policy1" ng-model="listing.cancel_policy" ng-click="patch_cancel_policy()">
+                            <img src="/static/images/RadioButton.svg" alt="" ng-show="listing.cancel_policy != 'policy1'" />
+                            <img src="/static/images/RadioButton_Checked.svg" alt="" ng-show="listing.cancel_policy == 'policy1'" />
+                            <div class="option-label-txt">
+                                <h1 class="reg-text margin-zero">Flexible</h1>
+                                <p>Full refund 1 day prior to arrival, except fees</p>
+                                <a data-toggle="popover" title="Flexible Cancellation Policy" data-content="<ul><li>Cleaning fees are always refunded if the guest did not check in.</li><li>The Bid & Book service fee is non-refundable.</li></ul>" href="#" show-popover>Read More</a>
+                            </div>
+                        </label>
+                    </div>
+                    <hr>
+                    <div class="radio">
+                        <label class="add-location-option-label">
+                            <input class="ng-hide" type="radio" name="" value="policy2" ng-model="listing.cancel_policy" ng-click="patch_cancel_policy()">
+                            <img src="/static/images/RadioButton.svg" alt="" ng-show="listing.cancel_policy != 'policy2'" />
+                            <img src="/static/images/RadioButton_Checked.svg" alt="" ng-show="listing.cancel_policy == 'policy2'" />
+                            <div class="option-label-txt">
+                                <h1 class="reg-text margin-zero">Moderate</h1>
+                                <p>Full refund 5 days prior to arrival, except fees</p>
+                                <a title="Moderate Cancellation Policy" data-content="<ul><li>Cleaning fees are always refunded if the guest did not check in.</li><li>The Bid & Book service fee is non-refundable.</li></ul>" href="#" show-popover>Read More</a>
+                            </div>
+                        </label>
+                    </div>
+                    <hr>
+                    <div class="radio">
+                        <label class="add-location-option-label">
+                            <input class="ng-hide" type="radio" name="" value="policy3" ng-model="listing.cancel_policy" ng-click="patch_cancel_policy()">
+                            <img src="/static/images/RadioButton.svg" alt="" ng-show="listing.cancel_policy != 'policy3'" />
+                            <img src="/static/images/RadioButton_Checked.svg" alt="" ng-show="listing.cancel_policy == 'policy3'" />
+                            <div class="option-label-txt">
+                                <h1 class="reg-text margin-zero">Strict</h1>
+                                <p>50% refund up until 1 week prior to arrival, except fees</p>
+                                <a data-toggle="popover" title="Strict Cancellation Policy" data-content="<ul><li>Cleaning fees are always refunded if the guest did not check in.</li><li>The Bid & Book service fee is non-refundable.</li></ul>" href="#" show-popover>Read More</a>
+                            </div>
+                        </label>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+            <!-- <button class="btn  edit-delete red-btn col-md-2" type="button" name="button" data-toggle="modal" data-target="#deleteModal">DELETE</button> -->
+            <!-- Modal Trigger -->
+            <button data-target="modal1" class="btn">Delete</button>
+
+            <!-- Modal Structure -->
+            <div id="modal1" class="modal">
+              <div class="modal-content">
+                <h4>Delete Listing?</h4>
+                <p>Do you really want to delete this listing?</p>
+              </div>
+              <div class="modal-footer">
+                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+                <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat" ng-click="delete()">DELETE</a>
+              </div>
+            </div>
+
+
+
+        </div>
+    </div><!-- container -->
+
+
+
+</div>
+{% endverbatim %}
+{% endblock %}
+{% block extra_js %}
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_MAPS_API_KEY}}&libraries=places"></script>
+<script type="text/javascript">
+(function(){
+
+    var options = {
+        // types: ['(cities)'],
+        componentRestrictions: {country: "us"}
+    };
+    var input = document.getElementById('addressTextField');
+    var autocomplete = new google.maps.places.Autocomplete(input, options);
+
+    google.maps.event.addDomListener(input, 'keydown', function(e) {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+        }
+    });
+
+    autocomplete.addListener('place_changed', function(){
+        var place = this.getPlace();
+
+        var scope = angular.element(document.getElementById('listingEdit')).scope();
+        scope.$apply(function(){
+            scope.updateAddressFromGooglePlaces(place);
+        });
+    });
+})();
+</script>
+{% endblock %}
+{% block subfooter %}
+{% endblock %}

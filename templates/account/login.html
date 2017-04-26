@@ -1,0 +1,51 @@
+{% extends "account/base.html" %}
+
+
+{% load i18n %}
+{% load account socialaccount %}
+{% block additional_styles %}<style>body {background: none no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;margin: 0 0 300px; /* bottom = footer height */}</style>{% endblock %}
+
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+<navbar-dark class="navElement"></navbar-dark>
+<div class="container center flexColumn" style="align-items:center">
+    <div class="register-heading">
+        <img src="/static/images/LogoBnB_color.svg" alt="" />
+        <h1>Log In</h1>
+    </div>
+    <div class="register-card panel panel-default col-md-6">
+        <form name="loginForm" class="center login" method="POST" action="{% url 'account_login' %}" novalidate>
+            {% csrf_token %}
+            <div class="login-form-group">
+                <p class="register-form-txt reg-txt">Log In and get going.</p>
+                <div class="validation-messages">
+                    <p ng-show="loginForm.login.$invalid && !loginForm.login.$pristine" class="error">Your email is required.</p>
+                    <p ng-show="loginForm.password.$invalid && !loginForm.password.$pristine" class="error">Your password is required.</p>
+                </div>
+                <input class="grey-input col-md-6 center" type="email" ng-model="registerInfo.email" placeholder="Email" id="id_login" name="login" required>
+                <input class="grey-input col-md-6 center" id="id_password" type="password" name="password" value="" ng-model="registerInfo.password" placeholder="Password" required>
+                <div class="TOS TOS-login">
+                    <p>By logging in you are agreeing to the <a target="_self" href="/terms"> Terms of Service and Privacy Policy</a>.</p>
+                </div>
+            </div>
+            <div class="login-btn-group">
+                <button class="register-nxt btn primaryAction" type="submit" name="button" ng-disabled="loginForm.$invalid">Log In</button>
+                <a title="Facebook" class="socialaccount_provider facebook" href="/accounts/facebook/login/?process=login{% if request.GET.next %}&next={{ request.GET.next | urlencode }}{% endif %}" target="_self">
+                    <button class="register-facebook btn" type="button" name="button"><img src="/static/images/Icon_fb_button.svg" alt="" />Log In with Facebook</button>
+                </a>
+                <a target="_self" title="Google" class="socialaccount_provider google" href="/accounts/google/login/?process=login{% if request.GET.next %}&next={{ request.GET.next | urlencode }}{% endif %}">
+                    <button class="register-google btn" type="button" name="button">Log In with Google</button>
+                </a>
+            </div>
+
+        </form>
+    </div>
+    <div class="register-login">
+        <p>Don't have an account? <a target="_self" href="/register">Sign Up</a></p>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends "xactpad/__base.html" %}
+{% load static from staticfiles %}
+{% block additional_styles %}<style>body {background: none no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;margin: 0 0 300px; /* bottom = footer height */}</style>{% endblock %}
+
+
+{% block content %}
+    {% verbatim %}
+    <div class="search" ng-controller="SearchController">
+      <navbar-secondary class="navElement"></navbar-secondary>
+      <div class="container" ng-cloak>
+        <div>
+          <div class="row">
+            <div class="col-md-6">
+              <input type="text" id="locationTextField" class="form-control col-md-6" placeholder="My destination is…"
+                >
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-6">
+                  <input type="text" class="form-control" placeholder="From…">
+                </div>
+                <div class="col-md-6">
+                  <input type="text" class="form-control" placeholder="To…">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <input type="text" class="form-control" placeholder="# Bedrooms">
+            </div>
+            <div class="col-md-3">
+              <input type="text" class="form-control" placeholder="# Bathrooms">
+            </div>
+            <div class="col-md-3">
+              <label>
+                <input type="checkbox" name=""> Show Flexible Dates
+              </label>
+            </div>
+            <div class="col-md-3">
+              <input type="text" class="form-control" placeholder="# Days">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              Filters…
+            </div>
+
+          </div>
+        </div>
+          <div>
+            <div>
+              <div class="type-inputs">
+                  <div class="type-btn-outer-div">
+                    Type of home:
+                    <select class="county-select" class="" name="" class="dropdown-menu" aria-labelledby="checkin" ng-model="property_type">
+                        <option value="">All</option>
+                        <option ng-repeat="type in propertyTypes" value="{{type}}">{{type}}</option>
+                    </select>
+                  </div>
+                  <button ng-click="doSearch()">Search</button>
+              </div>
+            </div>
+                <hr class="new-listing-hr">
+                <div class="included-amenities">
+                    <h1 class="add-location-title">Amenities</h1>
+                    <div class="amenities-div" data-toggle="buttons" >
+                        <div class="amenitie-group" ng-repeat="amenityGroup in amenities">
+                            <h5>{{amenityGroup.name}}</h5>
+                            <div class="amenitie" ng-repeat="amenity in amenityGroup.amenities" ng-click="checkbox = !checkbox; checkAmenity($event)">
+                                <div class="amenitie-checkbox" >
+                                    <img src="/static/images/Checkbox.svg" alt="" />
+                                    <img class="amenity-checkbox-tick" src="/static/images/Checkbox_tick.svg" alt="" ng-show="checkbox" data-name="{{amenity}}"/>
+                                </div>
+                                <p>{{amenity}}</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+          </div>
+
+
+          <!-- list view -->
+          <div class="owner-list-view fade-in-out">
+            <span class="owner-listing-panel-outer-span-2 " ng-repeat="listing in results">
+              <div class="owner-listing-panel-outer-div-2" >
+                <div class="img-and-txt">
+                  <img class="list-view-img" src="{{listing.photos[0].image}}" alt="" />
+                  <div class="list-view-txt">
+                    <h1>{{listing.name}}</h1>
+                    <p>{{listing.location_name}}</p>
+                  </div>
+                </div>
+                <div class="list-view-btn-group">
+                  <a href="/homes/{{listing.id}}" target=_self class="txt-dec-none">
+                    <div class="plain-btn">
+                      <p>
+                        View
+                      </p>
+
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </span>
+          </div>
+
+        </div>
+    </div>
+    {% endverbatim %}
+{% endblock %}
+
+{% block extra_js %}
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_MAPS_API_KEY}}&libraries=places"></script>
+{% endblock %}
+{% block subfooter %}
+{% endblock %}

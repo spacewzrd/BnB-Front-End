@@ -1,0 +1,79 @@
+{% extends "xactpad/__base.html" %}
+{% load static from staticfiles %}
+{% block additional_styles %}<style>body {background: none no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;margin: 0 0 300px; /* bottom = footer height */}</style>{% endblock %}
+{% block content %}
+{% verbatim %}
+<div class="listing_elem" ng-controller="listingController">
+    <navbar-secondary class="navElement"></navbar-secondary>
+    <div>
+        <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
+            <div class="cover_div" uib-slide ng-repeat="photo in listing.photos track by photo.position" index="++photo.position">
+                <img class="cover_carousel_img" ng-src="{{photo.image}}">
+                <div class="carousel-caption">
+                    <p>{{photo.caption}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="owner_info_panel_div">
+        <div class="owner_div">
+        </div>
+        <div class="info_div">
+            <div class="listing_name">
+                <h3>{{listing.name}}</h3>
+            </div>
+            <div class="listing_location_rating">
+                <p class="location_name">{{listing.location_name}}</p>
+            </div>
+            <div class="listing_icongroup">
+                <img class="listingIcon" src="/static/images/users.svg" alt="" />
+                <img class="listingIcon" src="/static/images/home.svg" alt="" />
+                <img class="listingIcon" src="/static/images/users.svg" alt="" />
+            </div>
+            <p class="listing_summary pullright ">
+                {{listing.summary}}
+            </p>
+            <br>
+            <a href="/homes/{{listingId}}/edit" target="_self" ng-show="listing.owner==null">
+                <button class="btn btn-info" type="button" name="button">EDIT</button>
+            </a>
+        </div>
+        <div class="panel_div">
+            <div class="panel panel-default" style="visibility: hidden;">
+                <div class="panel-heading ">
+                    <div class="row panel_heading">
+                        <h3 class="panel-title">{{listing.base_price  | currency}}</h3>
+                        <p class="panel-title">Per Night</p>
+                    </div>
+                </div>
+                <div class="panel-body" ng-controller="SearchFormController">
+                    <form>
+                        <div class="form-group">
+                            <label for="dpd1">Arrive</label>
+                            <input type="text" class="form-control" id="dpd1">
+                        </div>
+                        <div class="form-group">
+                            <label for="dpd1">Depart</label>
+                            <input type="text" class="form-control" id="dpd2">
+                        </div>
+                        <label for="guestsDropdown">Number of Guests</label>
+                        <div class="btn-group">
+                            <button id="guestsDropdown" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" placeholder="hey">
+                                {{selectedItem.name}} <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li ng-repeat="num in guests"><a href="#" ng-click="guestsFun(num)" target="_self">{{num.name}}</a></li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endverbatim %}
+{% endblock %}
+{% block extra_js %}
+{% endblock %}
+{% block subfooter %}
+{% endblock %}

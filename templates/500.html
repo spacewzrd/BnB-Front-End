@@ -1,0 +1,25 @@
+{% extends "xactpad/__base.html" %}
+{% load static from staticfiles %}
+{% load wagtailcore_tags %}
+
+{% block title %}Server Error{% endblock %}
+
+{%block page_ng_controller%}{%endblock%}
+{%block inner_ng_controller%}{%endblock%}
+
+{% block content %}
+    <div class="nav-dark">
+      <div class="">
+        <a class="" href="/">
+          <img class="nav-logo-dark" alt="Brand image goes here" src="/static/images/LogoBnB.svg">
+        </a>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="col-sm-12">
+        <h1>Server Error</h1>
+        <p>Sorry, there seems to be an error. Please try again soon.</p>
+      </div>
+    </div>
+{% endblock %}

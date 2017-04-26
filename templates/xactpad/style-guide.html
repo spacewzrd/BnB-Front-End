@@ -1,0 +1,443 @@
+{% extends "xactpad/__base.html" %}
+{% load static from staticfiles %}
+{% block additional_styles %}<style>body {background: none no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;margin: 0 0 300px; /* bottom = footer height */}</style>{% endblock %}
+{% block content %}
+    <div class="" ng-controller="BaseController">
+      <navbar-dark class="navElement"></navbar-dark>
+      <div class="container styleguide-div" ng-cloak>
+        <h1 class="title">Internal Style Guide</h1>
+        <br>
+        <div class="panel panel-default style-panel">
+          <div class="panel-heading">
+            Text
+          </div>
+          <div class="panel-body">
+            <div class="">
+              <p class="title">This is a page heading <img src="/static/images/ArrowMenu2.svg" alt="click" ng-click="show = !show"></p>
+              <pre ng-show ='show' class="pre" >
+                &lt;p class="title">This is a page heading&lt;/p&gt;
+
+                .title
+                  font-family: Source Sans Pro, sans-serif
+                  font-weight: 400
+                  font-size: 30pt
+                  color: $xact-grey
+              </pre>
+            </div>
+            <div class="">
+              <p class="sub-title">This is a smaller section heading <img src="/static/images/ArrowMenu2.svg" alt="click" ng-click="show1 = !show1"></p>
+              <pre ng-show ='show1' class="pre">
+                &lt;p class="sub-title">This is a smaller section heading&lt;/p&gt;
+
+                .sub-title
+                  font-family: Source Sans Pro, sans-serif
+                  font-weight: 400
+                  font-size: 1.500em
+                  color: $xact-dark
+              </pre>
+            </div>
+            <div class="">
+              <p class="reg-text">This is regular text.<img src="/static/images/ArrowMenu2.svg" alt="click" ng-click="showreg = !showreg"></p>
+              <pre ng-show ='showreg' class=" pre">
+                &lt;p class="reg-text">This is regular text.&lt;/p&gt;
+
+                The reg-text class has no color so it can be used on both light and dark backgrounds.
+
+                .reg-text
+                  font-family: Source Sans Pro, sans-serif
+                  font-weight: 400
+                  font-size: 1.125em
+              </pre>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default style-panel">
+          <div class="panel-heading">
+            Fonts
+          </div>
+          <div class="panel-body">
+            <div class="flexColumn center helper">
+              <div class="center">
+                <p class="sanspro">Sanspro</p>
+              </div>
+              <pre class="pre flexColumn">
+                <p>&lt;p class="sanspro"&gt;Sanspro&lt;/p&gt;</p>
+                <br>
+                <p>These classes change the font type of elements.</p>
+                <p>This font can also be accessed in sass $sanspro.</p>
+              </pre>
+            </div>
+            <div class="flexColumn center helper">
+              <div class="center">
+                <p class="raleway">Raleway</p>
+              </div>
+              <pre class="pre flexColumn">
+                <p>&lt;p class="raleway"&gt;Raleway&lt;/p&gt;</p>
+                <br>
+                <p>These classes change the font type of elements.</p>
+                <p>This font can also be accessed in sass as $raleway.</p>
+              </pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-default style-panel">
+          <div class="panel-heading">
+            Transitions
+          </div>
+          <div class="panel-body">
+            <p ng-show="fade" class="fade-in-out">Fade-in-out</p>
+            <button type="button" name="button" class="btn" ng-click="fade=!fade">Toggle Fade</button>
+            <img src="/static/images/ArrowMenu2.svg" alt="click" ng-click="show3 = !show3">
+            <pre ng-show ='show3'class="pre">
+              This transition works with angular and only effects elements using ng-show or ng-hide.
+              See xactpad.sass lines 25-53
+
+              &lt;p ng-show="fade" class="fade-in-out">Fade-in-out&lt;/p&gt;
+
+              .fade-in-out
+                transition: 1s linear all
+                opacity: 1
+                &.ng-hide
+                  opacity: 0
+            </pre>
+          </div>
+        </div>
+
+        <div class="panel panel-default style-panel">
+          <div class="panel-heading">
+            Helper Text
+          </div>
+          <div class="panel-body">
+            <p class="info">Info<img src="/static/images/ArrowMenu2.svg" alt="click" ng-click="show4 = !show4"></p>
+            <pre ng-show ='show4'>
+              .info
+                color: #00529B
+                font-size: 0.750em
+            </pre>
+            <p class="success">Success<img src="/static/images/ArrowMenu2.svg" alt="click" ng-click="show5 = !show5"></p>
+            <pre ng-show='show5'>
+              .success
+                color: #4F8A10
+                font-size: 0.750em
+            </pre>
+            <p class="warning">Warning<img src="/static/images/ArrowMenu2.svg" alt="click" ng-click="show6 = !show6"></p>
+            <pre ng-show='show6'>
+              .warning
+                color: #9F6000
+                font-size: 0.750em
+            </pre>
+            <p class="error">Error<img src="/static/images/ArrowMenu2.svg" alt="click" ng-click="show7 = !show7"></p>
+            <pre ng-show='show7'>
+              .error
+                color: #D8000C
+                font-size: 0.750em
+            </pre>
+            <pre>
+              .info, .success, .warning, .error, .validation
+                font-family: $sanspro
+                font-weight: 400
+            </pre>
+          </div>
+        </div>
+
+        <div class="panel panel-default style-panel">
+          <div class="panel-heading">
+            Inputs
+          </div>
+          <div class="panel-body ">
+            <p class="sub-title">Buttons</p>
+            <div class="flexRow input-div">
+              <div class="btn-div">
+                <div class="btn-group">
+                  <div class="btn plain-btn">Plain Button</div><img src="/static/images/ArrowMenu2.svg" alt="click" ng-click="showbtn = !showbtn">
+                </div>
+                <div class="btn-group">
+                  <div class=" btn xact-blue-btn">Primary Button</div><img src="/static/images/ArrowMenu2.svg" alt="click" ng-click="showbluebtn = !showbluebtn">
+                </div>
+                <div class="btn-group">
+                  <button class="btn red-btn" type="button" name="button">Delete Button</button><img src="/static/images/ArrowMenu2.svg" alt="click" ng-click="showredbtn = !showredbtn">
+                </div>
+              </div>
+            </div>
+              <pre ng-show="showbtn" class="pre">
+                &lt;div class="btn plain-btn">Plain Button&lt;/div&gt;
+
+                .plain-btn
+                  border-radius: 0px
+                  color: $xact-light
+                  border: thin solid $xact-light
+                  height: 2.8em
+                  width: 8em
+                  &:hover
+                    color: $xact-light
+                  >p
+                    text-align: center
+                    font-family: $raleway
+                    font-weight: 600
+                    font-size: 0.938em
+                    margin-top: .5em
+
+              </pre>
+              <pre ng-show="showbluebtn" class=" pre">
+                &lt;div class="btn xact-blue-btn">Primary Button&lt;/div&gt;
+
+                .xact-blue-btn
+                  min-height: 2.8em
+                  border-radius: 0px
+                  width: 12.000em
+                  font-family: Raleway, sans-serif
+                  font-weight: 600
+                  font-size: 0.938em
+                  +setColorAndHover(white)
+                  +setBGColorAndHover($xact-blue)
+              </pre>
+              <pre ng-show="showredbtn" class=" pre">
+                &lt;button class="btn red-btn col-md-2" type="button">Red Button&lt;/button&gt;
+
+                .red-btn col-md-2
+                  height: 4.2em
+                  border-radius: 0px
+                  width: 12em
+                  font-family: $raleway
+                  font-weight: 600
+                  font-size: 0.938em
+                  color: white
+                  background-color: red
+              </pre>
+
+
+            <!--  -->
+            <p class="sub-title">Text Input</p>
+            <div class="flexRow input-div">
+              <input type="text" name="" value="Standard grey input" class="form-control grey-input">
+              <img src="/static/images/ArrowMenu2.svg" alt="click" ng-click="showGI = !showGI">
+            </div>
+            <pre ng-show="showGI" class="pre">
+              &lt;input type="text" name="" value="Standard grey input" class="form-control grey-input"&gt;
+
+              .grey-input
+                font-family: $sanspro
+                font-weight: 400
+                font-size: 0.938em
+                color: $xact-light-grey
+                border: none
+                background-color: #fafafa
+                margin-top: 1em
+                width: 47.333em
+                height: 3.333em
+                border-radius: 0px
+
+            </pre>
+            <p class="sub-title">Checkbox</p>
+            <div class="flexRow input-div">
+              <div class="check-container" ng-click="checkbox = !checkbox">
+                  <img class="check" src="/static/images/Checkbox.svg" alt="" />
+                  <img class="tick" src="/static/images/Checkbox_tick.svg" alt="" ng-show="checkbox" />
+              </div>
+              <img src="/static/images/ArrowMenu2.svg" alt="click" ng-click="showCK = !showCK">
+            </div>
+            <pre ng-show="showCK">
+              &lt;div class="check-container" ng-click="checkbox = !checkbox;"&gt;
+                  &lt;img class="check" src="/static/images/Checkbox.svg" alt="" /&gt;
+                  &lt;img class="tick" src="/static/images/Checkbox_tick.svg" alt="" ng-show="checkbox" /&gt;
+              &lt;/div&gt;
+
+              .check-container
+                width: 28px
+                height: 28px
+                position: relative
+                .check
+                  width: 100%
+                  height: 100%
+                  position: absolute
+                  top: 0
+                  left: 0
+                .tick
+                  width: 100%
+                  height: 100%
+                  position: absolute
+                  top: -17%
+                  left: -20%
+                  z-index: 10
+
+            </pre>
+            <p class="sub-title">Dropdown</p>
+            <div class="flexRow input-div">
+              <select class="xactdropdown col-md-3" name="">
+                <option value="">thing</option>
+                <option value="">thing1</option>
+                <option value="">thing2</option>
+                <option value="">thing3</option>
+              </select>
+              <img src="/static/images/ArrowMenu2.svg" alt="click" ng-click="show2 = !show2">
+            </div>
+            <pre ng-show ='show2' class="fade-in-out pre">
+              &lt;select class="xactdropdown"&gt;
+                &lt;option value=""&gt;thing&lt;/option&gt;
+                &lt;option value=""&gt;thing1&lt;/option&gt;
+                &lt;option value=""&gt;thing2&lt;/option&gt;
+                &lt;option value=""&gt;thing3&lt;/option&gt;
+              &lt;/select&gt;
+
+              .xactdropdown
+                background-image: url(../images/Icon_arrowDown.svg)
+                background-repeat: no-repeat
+                background-position: center right
+                height: 3.333em
+                width: 14.733em
+                margin-right: 1.333em
+                font-family: $sanspro
+                font-weight: 400
+                font-size: 0.938em
+                color: $xact-light-grey
+                background-color: white
+            </pre>
+          </div>
+        </div>
+
+        <div class="panel panel-default style-panel">
+          <div class="panel-heading">
+            Helpers
+          </div>
+          <div class="panel-body">
+            <div class="flexColumn helper-div">
+              <div class="flexColumn center helper">
+                <p>Disable animation</p><img src="/static/images/ArrowMenu2.svg" alt="click" ng-click="showDA = !showDA">
+                <pre class="center pre" ng-show="showDA">
+                  <p>Add "ng-animate-disabled"  to any element to disable ALL animations on it.</p>
+                </pre>
+              </div>
+              <div class="flexColumn center helper">
+                <p>Disable text decoration</p><img src="/static/images/ArrowMenu2.svg" alt="click" ng-click="showTD = !showTD">
+                <pre class="center pre" ng-show="showTD">
+                  <p>Add "txt-dec-none" to any element to disable text decoration.</p>
+                </pre>
+              </div>
+              <div class="flexColumn center helper">
+                <p>Set element to Flex and Column</p><img src="/static/images/ArrowMenu2.svg" alt="click" ng-click="showFC = !showFC">
+                <div class="" ng-show="showFC">
+                  <p>Ex:</p>
+                  <div class="flexColumn center">
+                    <p>thing1</p>
+                    <p>thing2</p>
+                  </div>
+                  <pre class="pre flexColumn">
+                    <p>&lt;div class="flexColumn"&gt;</p>
+                    <p>&lt;p&gt;thing1&lt;/p&gt;</p>
+                    <p>&lt;p&gt;thing2&lt;/p&gt;</p>
+                    <p>&lt;/div&gt;</p>
+                    <p>Add "flexColumn" to any element to make a column with flexbox.</p>
+                  </pre>
+                </div>
+              </div>
+              <div class="flexColumn center helper">
+                <p>Set element to Flex and Row </p><img src="/static/images/ArrowMenu2.svg" alt="click" ng-click="showFR = !showFR">
+                <div class=""ng-show="showFR">
+                  <p>Ex:</p>
+                  <div class="flexRow center" style="justify-content: center;">
+                    <p>thing1</p>
+                    <p>thing2</p>
+                  </div>
+                  <pre class="pre flexColumn">
+                    <p>&lt;div class="flexRow"&gt;</p>
+                    <p>&lt;p&gt;thing1&lt;/p&gt;</p>
+                    <p>&lt;p&gt;thing2&lt;/p&gt;</p>
+                    <p>&lt;/div&gt;</p>
+                    <p>Add "flexRow" to any element to make a row with flexbox.</p>
+                  </pre>
+                </div>
+
+              </div>
+              <div class="flexColumn center helper">
+                <p>Text Align</p></p><img src="/static/images/ArrowMenu2.svg" alt="click" ng-click="showC = !showC">
+                <div class="" ng-show="showC">
+                  <!-- <div class="center">
+                    <p>thing1</p>
+                  </div> -->
+                  <pre class="pre flexColumn">
+                    <p>&lt;div class="center"&gt;</p>
+                    <p>&lt;p&gt;thing1&lt;/p&gt;</p>
+                    <p>&lt;/div&gt;</p>
+                    <p>Add "center", "text-align-left", or "text-align-right" to any element to set text-align</p>
+                  </pre>
+                </div>
+              </div>
+              <div class="flexColumn center helper">
+                <p>Pointer</p><img src="/static/images/ArrowMenu2.svg" alt="click" ng-click="showP = !showP">
+                <pre class="pre" ng-show="showP">
+                  <p>Add "pointer" to an element to set its mousetype to pointer</p>
+                </pre>
+              </div>
+              <div class="flexColumn center helper">
+                  <p>Margin Helpers</p><img src="/static/images/ArrowMenu2.svg" alt="click" ng-click="showM = !showM">
+                  <pre class="" ng-show"showM">
+                    <p>Add "marg-(direction) to add 1em of margin to that side"</p>
+                    <p>Ex:</p>
+                    <p>marg-left</p>
+                    <p>marg-right</p>
+                    <p>marg-top</p>
+                    <p>marg-bot</p>
+                  </pre>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="">
+          <br>
+          <p class="sub-title">Sample Form</p>
+          <form class="form-group flexColumn">
+            <input class="grey-input col-md-5" type="text" name="" value="" placeholder="Stuff goes here">
+            <div class="flexRow">
+              <select class="xactdropdown col-md-3 marg-top" name="">
+                <option value="">thing</option>
+                <option value="">thing1</option>
+                <option value="">thing2</option>
+                <option value="">thing3</option>
+              </select>
+              <label for="check-container" class="sanspro check-test" style="align-self: flex-end;">
+                <div class="check-container" ng-click="checkbox = !checkbox" >
+                    <img class="check" src="/static/images/Checkbox.svg" alt="" />
+                    <img class="tick" src="/static/images/Checkbox_tick.svg" alt="" ng-show="checkbox" />
+                </div>
+                <p>Check Me</p>
+              </label>
+
+            </div>
+            <button class="btn xact-blue-btn col-md-1 marg-top" type="button" name="button">Submit</button>
+          </form><img src="/static/images/ArrowMenu2.svg" alt="click" ng-click="showForm = !showForm">
+          <pre ng-show="showForm">
+
+
+            &lt;form class="form-group flexColumn"&gt;
+              &lt;input class="grey-input col-md-5" type="text" name="" value="" placeholder="Stuff goes here"&gt;
+              &lt;div class="flexRow"&gt;
+                &lt;select class="xactdropdown col-md-3 marg-top" name=""&gt;
+                  &lt;option value="">thing&lt;/option&gt;
+                  &lt;option value="">thing1&lt;/option&gt;
+                  &lt;option value="">thing2&lt;/option&gt;
+                  &lt;option value="">thing3&lt;/option&gt;
+                &lt;/select>
+                &lt;label for="check-container" class="sanspro flexRow" style="align-self: flex-end;"&gt;
+                  &lt;div class="check-container" ng-click="checkbox = !checkbox" &gt;
+                      &lt;img class="check" src="/static/images/Checkbox.svg" alt="" /&gt;
+                      &lt;img class="tick" src="/static/images/Checkbox_tick.svg" alt="" ng-show="checkbox" /&gt;
+                  &lt;/div&gt;
+                  &lt;p>Check Me&lt;/p&gt;
+                &lt;/label&gt;
+              &lt;/div&gt;
+              &lt;button class="btn xact-blue-btn col-md-1 marg-top" type="button" name="button">Submit&lt;/button&gt;
+            &lt;/form&gt;
+
+
+
+          </pre>
+        </div>
+
+
+
+      </div>
+    </div>
+{% endblock %}

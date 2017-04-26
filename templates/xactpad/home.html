@@ -1,0 +1,74 @@
+{% extends "xactpad/__base.html" %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+{% load static from staticfiles %}
+
+{% block content %}
+
+<div class="HomeDiv" ng-controller="HomeController">
+    <nav-bar class="navElement"></nav-bar>
+    <div class="home_div">
+        <div class="first-div">
+            <div id="jumbotron-carousel" style="position: relative;">
+                <div style="position: absolute;z-index: 99; color:#fff; text-align: center; width: 100%; top:40%; text-shadow: 0px 0px 10px rgba(0,0,0,0.9);">
+                    {% for block in page.heading %} {% include_block block %} {% endfor %}
+                </div>
+                <section class="regular slider" style="position: relative;z-index: 90">
+                    {% for pic in page.carousel_items.all %}
+                        {% image pic.image width-1600 as resized_image %}
+                        <img src="{{resized_image.url}}" alt="">
+                        <!-- <div class="carousel-bgimage"  style="background:url({{resized_image.url}}) no-repeat center center; background-size: cover; height: 34.375em; width:100%"></div> -->
+                    {% endfor %}
+                </section>
+            </div>
+        </div>
+        <div class="renter-div">
+            <div class="container">
+                {% for block in page.renters %} {% include_block block %} {% endfor %}
+            </div>
+        </div>
+        <div class="owner-div">
+            <div class="container">
+                {% for block in page.owners %} {% include_block block %} {% endfor %}
+            </div>
+        </div>
+        <div class="features-div">
+            <div class="txt-half">
+                {% for block in page.features %} {% include_block block %} {% endfor %}
+            </div>
+        </div>
+        <div class="get-started-div">
+            <div class="container">
+                {% for block in page.get_started %} {% include_block block %} {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block extra_js %}
+<script type="text/javascript">
+$(function(){
+    var $jumbotronCarousel = $(".regular");
+    $jumbotronCarousel
+        .slick({
+            dots: false,
+            infinite: true,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 6000,
+            nextArrow: '',
+            prevArrow: ''
+          })
+        .on('beforeChange', function(event, slick, currentSlide, nextSlide){
+            console.log(event, nextSlide);
+        })
+        .on('afterChange', function(event, slick, currentSlide){
+            console.log(event, currentSlide);
+        })
+      .show();
+});
+</script>
+{% endblock %}

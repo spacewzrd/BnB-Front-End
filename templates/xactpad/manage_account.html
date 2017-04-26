@@ -1,0 +1,94 @@
+{% extends "xactpad/__base.html" %}
+{% load static from staticfiles %}
+{% block additional_styles %}<style>body {background: none no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;margin: 0 0 300px; /* bottom = footer height */}</style>{% endblock %}
+
+{% block content %}
+{% verbatim %}
+<div class="" ng-controller="ChangeController">
+  <navbar-secondary class="navElement"></navbar-secondary>
+  <div class="container">
+      <h1 class="title">Manage Account</h1>
+      <div class="row">
+          <div class="col-sm-12">
+              <div class="edit-name flexColumn" ng-form name="namepatch">
+                  <label class="sub-title" for="">Name</label>
+                  <p ng-show="nameSubmit" style="margin: 0px;" class="success fade-in-out" ng-class="{'vis-hidden': nameSubmit==false}">Name Saved</p>
+                  <input id="firstname_patch" class="" type="text" name="firstName" ng-blur="patch('firstName')" ng-model="user.firstName" placeholder="First Name">
+                  <input id="lastname_patch" class="" type="text" name="name" ng-blur="patch('lastName')" ng-model="user.lastName" placeholder="Last Name">
+              </div>
+              <hr class="new-listing-hr">
+              <div class="manage-password">
+                  <h3 class="sub-title">Change Password</h3>
+                  <change-password></change-password>
+              </div>
+              <hr class="new-listing-hr">
+              <div class="edit-name form-group">
+                  <label class="sub-title" for="">Email &amp; Phone</label>
+                  <p ng-show="emailSubmit" class="success fade-in-out">Email Saved</p>
+                  <p ng-show="phoneSubmit" class="success fade-in-out">Phone Number Saved</p>
+                  <div class="input-group marg-top">
+                    <span class="input-group-addon sanspro">Email</span>
+                    <input id="email_patch"  class="form-control patch grey-input money-input" type="text" name="email" ng-blur="patch('email')" ng-model="user.email" required>
+                  </div>
+                  <div class="input-group marg-top">
+                    <span class="input-group-addon sanspro">Phone</span>
+                    <input id="phone_patch"  class="form-control patch grey-input money-input" type="text" name="phone" ng-blur="patch('phone')" ng-model="user.phone"s required>
+                  </div>
+                                </div>
+              <hr class="new-listing-hr">
+              <!-- <div class="add-pic-overlay">
+                <h1 class="pic-overlay-txt">Drop To Upload!</h1>
+              </div> -->
+
+
+              <div class="pictures ">
+                  <h1 class="sub-title">Change Avatar</h1>
+                  <div ng-show="user.avatar" class="row avatar-div">
+                      <img ng-hide="file.base64" class="responsive-img circle col s6 avatar" src="{{user.avatar}}" alt="" />
+                      <img ng-show="file.base64" class="responsive-img circle col s6 avatar" src="data:image/jpeg;base64,{{file.base64}}" alt="" />
+                  </div>
+                  <form>
+                      <div  class="file-field input-field">
+                        <div class="btn">
+                          <i class="material-icons left">perm_media</i>
+                          <span>Add Pic</span>
+                          <input class="" id="add-pic" type="file" name="add-pic" value="" ng-model="file" base-sixty-four-input accept="image/*" input on-after-validate="patch_avatar()"></input>
+                        </div>
+                        <div class="file-path-wrapper">
+                          <input class="file-path validate flow-text" type="text" placeholder="Upload an avatar">
+                        </div>
+                      </div>
+                      <div class="avatar-validation center">
+                          <p ng-show="avatarSaving" class="success txt-align-left  fade-in-out">Saving...</p>
+                          <p ng-show="avatarChanged" class="success txt-align-left  fade-in-out">Your Avatar was changed to: </p>
+                          <p ng-show="avatarChanged" class="success txt-align-left  fade-in-out">{{file.filename}}</p>
+                      </div>
+                  </form>
+              </div>
+              <hr class="new-listing-hr">
+              <div class="manage-location form-group">
+                  <div>
+                      <h1 class="sub-title">Your Address</h1>
+                      <p ng-show="addressSubmit" class="success fade-in-out">Address Saved</p>
+                      <div class="location-inputs">
+                          <input class="grey-input" type="text" placeholder="Street Address" ng-model="user.streetAddress" required ng-blur="patch('streetAddress')">
+                          <input class="grey-input" type="text" placeholder="Street Address 2 (Optional)" ng-model="user.streetAddress2" ng-blur="patch('streetAddress2')">
+                          <div>
+                              <input class="city-input" type="text" placeholder="City" ng-model="user.city" required ng-blur="patch('city')">
+                              <select class="col-md-1 xactdropdown marg-top" ng-options="x for x in states" ng-model="user.state" placeholder="State" required ng-blur="patch('state')">
+                              </select>
+                              <input class="postal-input" placeholder="Postal Code" ng-model="user.postalCode" required ng-minlength="2" ng-maxlength="20" ng-blur="patch('postalCode')">
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+{% endverbatim %}
+{% endblock %}
+{% block extra_js %}
+{% endblock %}
+{% block subfooter %}
+{% endblock %}

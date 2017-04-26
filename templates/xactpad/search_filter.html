@@ -1,0 +1,175 @@
+{% extends "xactpad/__base.html" %}
+{% load static from staticfiles %}
+{% block additional_styles %}<style>body {background: none no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;margin: 0 0 300px; /* bottom = footer height */}</style>{% endblock %}
+
+
+{% block content %}
+    {% verbatim %}
+    <div class="search_filter" ng-controller="SearchController">
+      <navbar-secondary class="navElement"></navbar-secondary>
+      <div class="container">
+        <div class="search-form" style="margin-top: 4em;">
+          <div class="flexRtoC">
+            <!-- connect input to autocomplete -->
+            <input type="text" name="" id="locationTextField" value="" class="grey-input col-md-6" placeholder="My Destination is..." style="border: 1px solid #b3bdc2; background-color: #fff">
+            <!-- get checkin and checkout dates api -->
+            <div class="col-md-6 search-dates flexRow" style="opacity: 0.5">
+              <div class="flex">
+                <img src="/static/images/Icon_arrowDown.svg" alt="">
+                <select class="inline-date" name="" disabled>
+                  <option value="">Check In Date</option>
+                </select>
+              </div>
+              <div class="flex">
+                <img src="/static/images/Icon_arrowRight.svg" alt="">
+              </div>
+              <div class="flex">
+                <img src="/static/images/Icon_arrowDown.svg" alt="">
+                <select class="inline-date" name="" disabled>
+                  <option value="">Check Out Date</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="flexRtoC " style="justify-content:space-between;">
+            <select class="xactdropdown col-md-3 marg-top" name="">
+              <option value="1">+1</option>
+              <option value="2">+2</option>
+              <option value="3">+3</option>
+              <option value="4">+4</option>
+              <option value="5">+5</option>
+              <option value="6">+6</option>
+              <option value="7">+7</option>
+              <option value="8">+8</option>
+              <option value="9">+9</option>
+              <option value="10">+10</option>
+            </select>
+            <select class="xactdropdown col-md-3 marg-top" name="">
+              <option value="1">+1</option>
+              <option value="1.5">+1.5</option>
+              <option value="2">+2</option>
+              <option value="2.5">+2.5</option>
+              <option value="3">+3</option>
+              <option value="3.5">+3.5</option>
+              <option value="4">+4</option>
+              <option value="4.5">+4.5</option>
+              <option value="5">+5</option>
+            </select>
+            <div class="col-md-3">
+              <select ng-show="checkbox" class="xactdropdown marg-top" name="" style="opacity: 0.5">
+                <option value="">Three Days</option>
+              </select>
+            </div>
+            <div class="col-md-3 flexRow marg-top" style="align-items: center;"  style="opacity: 0.5">
+              <div class="check-container col-md-3 flexRow" nxg-click="checkbox = !checkbox">
+                <img class="check" src="/static/images/Checkbox.svg" alt="">
+                <img class="tick" src="/static/images/Checkbox_tick.svg" alt="" ng-show="checkbox">
+              </div>
+              <p class="reg-text"  style="opacity: 0.5">Show flexible schedules</p>
+            </div>
+          </div>
+
+          <div class="flexRow" style="margin-top: 4em;">
+            <p class="sanspro">Filters</p>
+            <img class="crossRotate" src="/static/images/Icon_arrowDown.svg" alt="" ng-click="extra = !extra">
+          </div>
+        </div>
+
+        <div ng-show="!extra">
+          <hr>
+          <div class="extra-filters flexColumn">
+            <div class="col-md-6"  style="opacity: 0.5">
+              <p style="color: #9da1a7;" class="sub-title marg-bot">Price Range</p>
+              <!-- slider need styling -->
+              <div id="slider"></div>
+              <div class="marg-top flexRow" style="justify-content:space-between;">
+                <p class="sanspro">$<input type="text" class="sliderValue sanspro" data-index="0" value="10" style="border:none;"></p>
+                <p class="sanspro">$<input type="text" class="sliderValue sanspro" data-index="1" value="90" style=" border:none;"></p>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <p style="color: #9da1a7;" class="sub-title marg-top">Amenities</p>
+              <!--amenities list, this will be way smaller when using ng-repeat get amenities from api-->
+              <div>
+                <div class="included-amenities">
+                    <div class="search-amenities" data-toggle="buttons">
+                        <div class="amenitie-group" ng-repeat="amenityGroup in amenities">
+                            <h5>{{amenityGroup.name}}</h5>
+                            <div class="amenitie" ng-repeat="amenity in amenityGroup.amenities" ng-click="checkbox = !checkbox; checkAmenity($event)">
+                                <div class="check-container" >
+                                    <img class="check" src="/static/images/Checkbox.svg" alt="" />
+                                    <img class="tick" src="/static/images/Checkbox_tick.svg" alt="" ng-show="checkbox" data-name="{{amenity}}"/>
+                                </div>
+                                <p>{{amenity}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+              <!-- end of crazy long amenities -->
+              <button ng-click="doSearch()" class="btn xact-blue-btn marg-top">Search</button>
+              <!-- <button type="button" name="button" class="btn xact-blue-btn marg-top">Apply Filters</button> -->
+            </div>
+          </div>
+        </div>
+        <hr>
+
+
+        <div class="search-results">
+          <!-- List of results, html will also be shorter when using loop -->
+          <div class="owner-grid-view col-lg-12">
+            <div ng-show="!results.length">No homes matching your criteria. Try broadening your search</div>
+            <span class="owner-listing-panel-outer-span" ng-repeat="listing in results">
+              <div class="owner-listing-panel-outer-div">
+                <a href="/homes/{{listing.id}}" target="_self">
+                  <div class="panel panel-default owner-listing-panel">
+                    <div class="panel-body owner-listing-panel-body">
+                      <div class="img-wrap">
+                        <img class="listing-img" src="{{listing.photos[0].image}}" alt="" />
+                      </div>
+                      <h1 class="owner-listing-title marg-left" style="text-align:left">{{listing.name}}</h1>
+                      <p class="owner-listing-location" style="text-align:left; margin-left: 1.2em;">{{listing.location_name}}</p>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </span>
+          </div>
+        <!-- end of result grid -->
+        </div>
+
+
+      </div>
+    </div>
+    {% endverbatim %}
+{% endblock %}
+
+{% block extra_js %}
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_MAPS_API_KEY}}&libraries=places"></script>
+
+
+<!-- will move this to controller when this page gets one -->
+<script>
+  $( function() {
+    $("#slider").slider({
+          min: 0,
+          max: 100,
+          step: 1,
+          values: [10, 90],
+          disabled: true,
+          slide: function(event, ui) {
+              for (var i = 0; i < ui.values.length; ++i) {
+                  $("input.sliderValue[data-index=" + i + "]").val(ui.values[i]);
+              }
+          }
+      });
+      $("input.sliderValue").change(function() {
+          var $this = $(this);
+          $("#slider").slider("values", $this.data("index"), $this.val());
+      });
+  } );
+</script>
+
+{% endblock %}
+{% block subfooter %}
+{% endblock %}

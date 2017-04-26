@@ -1,0 +1,26 @@
+{% extends "xactpad/__base.html" %}
+{% load static from staticfiles %}
+{% block additional_styles %}<style>body {background: none no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;margin: 0 0 300px; /* bottom = footer height */}</style>{% endblock %}
+{% block content %}
+{% verbatim %}
+    <div class="register">
+      <navbar-dark class="navElement"></navbar-dark>
+      <div  class="container register-container flexColumn" style="align-items:center">
+        <div class="register-heading">
+          <img src="/static/images/LogoBnB_color.svg" alt="" />
+          <h1>Create Account</h1>
+        </div>
+        <div class="register-card panel panel-default col-md-6">
+          <register></register>
+        </div>
+        <div class="register-login">
+          <p class="reg-text">Already have an account? <a href="accounts/login">Login</a></p>
+        </div>
+      </div>
+    </div>
+{% endverbatim %}
+{% endblock %}
+{% block extra_js %}
+{% endblock %}
+{% block subfooter %}
+{% endblock %}

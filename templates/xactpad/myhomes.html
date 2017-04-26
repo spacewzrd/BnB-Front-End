@@ -1,0 +1,120 @@
+{% extends "xactpad/__base.html" %}
+{% load static from staticfiles %}
+{% block additional_styles %}<style>body {background: none no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;margin: 0 0 300px; /* bottom = footer height */}</style>{% endblock %}
+
+
+{% block content %}
+{% verbatim %}
+<div class="myhomes" ng-controller="MyhomesController">
+    <navbar-secondary class="navElement"></navbar-secondary>
+    <div class="container" ng-cloak>
+        <div class="" ng-show="user.isOwner" ng-cloak>
+            <div class="flexRow myhomes-heading">
+                <h1 class="title raleway">My Homes</h1>
+                <div class="myhomes-btn-group">
+                    <img class="myhomes-btn ng-animate-disabled" src="/static/images/Icon_grid_light.svg" alt="" ng-click="gridview = true" ng-show="!gridview" />
+                    <img class="myhomes-btn ng-animate-disabled" src="/static/images/Icon_grid.svg" alt="" ng-click="gridview = true" ng-hide="!gridview" />
+                    <img class="myhomes-btn ng-animate-disabled" src="/static/images/Icon_list_light.svg" alt="" ng-click="gridview = false" ng-show="gridview" />
+                    <img class="myhomes-btn ng-animate-disabled" src="/static/images/Icon_list.svg" alt="" ng-click="gridview = false" ng-hide="gridview" />
+                    <a href="/homes/new" target="_self"><img id="bigplus" class="myhomes-btn-plus" src="/static/images/Icon_Plus.svg" alt="" /></a>
+                </div>
+            </div>
+            <div class="owner">
+                <div class="owner-grid-view" ng-show="gridview">
+                  <div class="row flexRow" style=" flex-wrap:wrap; justify-content:space-between;">
+                      <div ng-repeat="listing in listings" class="card medium col s3" style="padding: 0em;">
+                        <div class="card-image">
+                          <img src="{{listing.photos[0].image}}">
+                          <!-- <span class="card-title">{{listing.location_name}}</span> -->
+                          <a href="/homes/{{listing.id}}/edit" target="_self" class="btn-floating halfway-fab waves-effect waves-light xact"><i class="material-icons">mode_edit</i></a>
+                        </div>
+                        <div class="card-content">
+                          <p class="reg-text">{{listing.name}}</p>
+                          <p>{{listing.location_name}}</p>
+                        </div>
+                        <div class="card-action">
+                          <a href="/homes/{{listing.id}}" target="_self" class="xact-text">Preview</a>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <!-- list view -->
+                <div class="owner-list-view" ng-show="!gridview" ng-cloak>
+                  <div class="col s12 m7" ng-repeat="listing in listings">
+                    <div class="card  horizontal">
+                      <div class="card-image">
+                        <img class="responsive-img" src="{{listing.photos[0].image}}">
+                      </div>
+                      <div class="card-stacked">
+                        <div class="card-content">
+                          <p class="reg-text">{{listing.name}}</p>
+                          <p>{{listing.location_name}}</p>
+                        </div>
+                        <div class="card-action flexRow" style="align-items:center;">
+                          <a href="/homes/{{listing.id}}" target="_self" class="xact-text">Preview</a>
+                          <a href="/homes/{{listing.id}}/edit" target="_self" class="xact-text"><i class="material-icons">mode_edit</i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <span class="owner-listing-panel-outer-span-2 col-md-12" ng-repeat="listing in listings">
+                    <div class="owner-listing-panel-outer-div-2 col-md-12" >
+                      <div class="img-and-txt">
+                        <img class="list-view-img" src="{{listing.photos[0].image}}" alt="" />
+                        <div class="list-view-txt">
+                          <h1 class="owner-listing-title">{{listing.name}}</h1>
+                          <p class="owner-listing-location">{{listing.location_name}}</p>
+                        </div>
+                      </div>
+                      <div class="list-view-btn-group">
+                        <a href="/homes/{{listing.id}}" class="txt-dec-none" target="_self">
+                          <div class="plain-btn col-md-12">
+                            <p>Preview</p>
+                          </div>
+                        </a>
+                        <a href="/homes/{{listing.id}}/edit" class="txt-dec-none" target="_self">
+                          <div class="plain-btn col-md-12 marg-left">
+                          <p>Edit</p>
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+                  </span> -->
+                </div>
+            </div>
+        </div>
+        <!-- end owner -->
+        <div class="not-owner" ng-if="!user.isOwner" ng-cloak>
+            <!-- ng-if user.isOwner = false -->
+            <div class="myhomes-heading" ng-cloak>
+                <h1 class="title">My Homes</h1>
+            </div>
+            <div class="new-owner" ng-cloak>
+                <div class="first-listing" ng-cloak>
+                    <div class="">
+                        <img class="folder-img" src="/static/images/Icon_FolderHomes.png" alt="" />
+                    </div>
+                    <h1 class="owner-listing-title"><img class="add-img" src="/static/images/Icon_CreateYourList.svg" alt="" />Create your first listing</h1>
+                    <p class="owner-listing-location" style="padding-top: 2em; padding-bottom: 2.4em;">Ready to get started? Click on the link below to create your first listing.</p>
+                    <a href="/homes/new" class="btn new-owner-btn" target="_self">
+                        Create a Listing
+                    </a>
+                </div>
+                <div class="import-listing verticalLine " ng-cloak>
+                    <div class="">
+                        <img class="folder-img" src="/static/images/Icon_AirnbnHomeAway.png" alt="" />
+                    </div>
+                    <h1><img class="add-img" src="/static/images/Icon_Import.svg" alt="" />Import your listing</h1>
+                    <p class="owner-listing-location" style="width: 30em; padding-top: 1em">Have an existing AirBnB or HomeAway listing? Did you know you can import that listing into Bid and Book? Click on the link below to get started.</p>
+                    <a href="/homes/import" class="btn new-owner-btn" target="_self">Import a Listing</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endverbatim %}
+{% endblock %}
+{% block extra_js %}
+{% endblock %}
+{% block subfooter %}
+{% endblock %}

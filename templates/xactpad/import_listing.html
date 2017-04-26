@@ -1,0 +1,23 @@
+{% extends "xactpad/__base.html" %}
+{% load static from staticfiles %}
+{% block additional_styles %}<style>body {background: none no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;margin: 0 0 300px; /* bottom = footer height */}</style>{% endblock %}
+{% block content %}
+    <div class="search" ng-controller="BaseController">
+      <navbar-secondary class="navElement"></navbar-secondary>
+      <div class="container import-div" ng-cloak>
+        <h1 class="title">Import Your Home</h1>
+          <div>
+            {% if message %}
+              <div class="alert alert-danger" role="alert"><b>Oops!</b> {{message}}</div>
+            {% endif %}
+            <form action="" method="post" class="import-form">{% csrf_token %}
+              <p class="sub-title" style="margin: 0px;">Link to your home on HomeAway or AirBnb:</p>
+              <div class="import-input-div">
+                <input type="text" class="form-control grey-input" name="url" placeholder="Enter the link to your listing on Homeaway or AirBnb">
+                <input type="submit" value="Import" class="btn xact-blue-btn import-btn">
+              </div>
+            </form>
+          </div>
+        </div>
+    </div>
+{% endblock %}
